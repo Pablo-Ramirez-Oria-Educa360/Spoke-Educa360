@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import LatestUpdate from "../whats-new/LatestUpdate";
 import { connectMenu, ContextMenu, MenuItem } from "../layout/ContextMenu";
 import styled from "styled-components";
+import withStrings from "../i18n/withStrings";
 
 export const ProjectsSection = styled.section`
   padding-bottom: 100px;
@@ -74,7 +75,8 @@ const contextMenuId = "project-menu";
 class ProjectsPage extends Component {
   static propTypes = {
     api: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    t: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -134,7 +136,9 @@ class ProjectsPage extends Component {
   renderContextMenu = props => {
     return (
       <ContextMenu id={contextMenuId}>
-        <MenuItem onClick={e => this.onDeleteProject(props.trigger.project, e)}>Delete Project</MenuItem>
+        <MenuItem onClick={e => this.onDeleteProject(props.trigger.project, e)}>
+          {this.props.t("projects.actions.deleteProject", null, "Delete Project")}
+        </MenuItem>
       </ContextMenu>
     );
   };
@@ -143,6 +147,7 @@ class ProjectsPage extends Component {
 
   render() {
     const { error, loading, projects, scenes, isAuthenticated } = this.state;
+    const { t } = this.props;
 
     const ProjectContextMenu = this.ProjectContextMenu;
 
@@ -153,13 +158,20 @@ class ProjectsPage extends Component {
           {!isAuthenticated || (projects.length === 0 && !loading) ? (
             <ProjectsSection flex={0}>
               <WelcomeContainer>
-                <h1>Welcome{configs.isMoz() ? " to Spoke" : ""}</h1>
+                <h1>
+                  {configs.isMoz()
+                    ? t("projects.hero.titleMoz", null, "Welcome a Spoke")
+                    : t("projects.hero.titleDefault", null, "Welcome")}
+                </h1>
                 <h2>
-                  If you&#39;re new here we recommend going through the tutorial. Otherwise, jump right in and create a
-                  project from scratch or from one of our templates.
+                  {t(
+                    "projects.hero.subtitle",
+                    null,
+                    "If you&#39;re new here we recommend going through the tutorial. Otherwise, jump right in and create a project from scratch or from one of our templates."
+                  )}
                 </h2>
                 <MediumButton as={Link} to="/projects/tutorial">
-                  Start Tutorial
+                  {t("projects.actions.startTutorial", null, "Start Tutorial")}
                 </MediumButton>
               </WelcomeContainer>
             </ProjectsSection>
@@ -169,14 +181,14 @@ class ProjectsPage extends Component {
           <ProjectsSection>
             <ProjectsContainer>
               <ProjectsHeader>
-                <h1>Projects</h1>
+                <h1>{t("projects.list.heading", null, "Projects")}</h1>
               </ProjectsHeader>
               <ProjectGridContainer>
                 <ProjectGridHeader>
                   <ProjectGridHeaderRow></ProjectGridHeaderRow>
                   <ProjectGridHeaderRow>
                     <Button as={Link} to="/projects/create">
-                      New Project
+                      {t("projects.actions.newProject", null, "New Project")}
                     </Button>
                   </ProjectGridHeaderRow>
                 </ProjectGridHeader>
@@ -203,4 +215,4 @@ class ProjectsPage extends Component {
   }
 }
 
-export default withApi(ProjectsPage);
+export default withApi(withStrings(ProjectsPage));

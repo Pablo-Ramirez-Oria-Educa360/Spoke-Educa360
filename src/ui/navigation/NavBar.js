@@ -4,6 +4,13 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withAuth } from "../contexts/AuthContext";
 import styled from "styled-components";
+import withStrings from "../i18n/withStrings";
+import { SelectMenu, Button as EvergreenButton } from "evergreen-ui";
+
+const LANGUAGES = [
+  { code: "en", label: "English" },
+  { code: "es", label: "Español" }
+];
 
 const StyledNavBar = styled.header`
   position: relative;
@@ -57,10 +64,69 @@ const RightContainer = styled.div`
   }
 `;
 
+const LanguageToggle = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+  font-size: 0.8em;
+  color: ${props => props.theme.text2};
+
+  button {
+    color: ${props => props.theme.text};
+  }
+`;
+
 class NavBar extends Component {
   static propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
+    lang: PropTypes.string,
+    setLanguage: PropTypes.func,
+    t: PropTypes.func
   };
+
+  static defaultProps = {
+    lang: "en",
+    setLanguage: () => {},
+    t: key => key
+  };
+
+  handleLanguageChange = nextLang => {
+    if (this.props.lang === nextLang) {
+      return;
+    }
+
+    this.props.setLanguage(nextLang);
+  };
+
+  renderLanguageToggle() {
+    const { lang, t } = this.props;
+    const current = LANGUAGES.find(language => language.code === lang) || LANGUAGES[0];
+    const currentLabel = current ? current.label : lang;
+    const options = LANGUAGES.map(language => ({
+      label: language.label,
+      value: language.code
+    }));
+
+    const title = t("navbar.language.title", null, "Language");
+    const currentText = t("navbar.language.current", { lang: currentLabel }, `Language: ${currentLabel}`);
+
+    return (
+      <LanguageToggle>
+        <SelectMenu
+          title={title}
+          options={options}
+          selected={lang}
+          hasTitle
+          closeOnSelect
+          onSelect={item => this.handleLanguageChange(item.value)}
+        >
+          <EvergreenButton type="button" appearance="minimal" height={24}>
+            {currentText}
+          </EvergreenButton>
+        </SelectMenu>
+      </LanguageToggle>
+    );
+  }
 
   render() {
     return (
@@ -115,10 +181,11 @@ class NavBar extends Component {
               </li>
             )}
           </NavList>
+          {this.renderLanguageToggle()}
         </RightContainer>
       </StyledNavBar>
     );
   }
 }
 
-export default withAuth(NavBar);
+export default withAuth(withStrings(NavBar));

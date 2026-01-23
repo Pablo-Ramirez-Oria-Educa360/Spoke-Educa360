@@ -27,6 +27,7 @@ import { ThemeProvider } from "styled-components";
 import { Column } from "./layout/Flex";
 
 import theme from "./theme";
+import LanguageProvider from "./i18n/LanguageProvider";
 
 const EditorContainer = lazy(() =>
   import(/* webpackChunkName: "project-page", webpackPrefetch: true */ "./EditorContainer")
@@ -67,29 +68,31 @@ export default class App extends Component {
     return (
       <ApiContextProvider value={api}>
         <AuthContextProvider value={this.state.isAuthenticated}>
-          <ThemeProvider theme={theme}>
-            <Router basename={process.env.ROUTER_BASE_PATH}>
-              <GlobalStyle />
-              <Column as={Suspense} fallback={<Loading message="Loading..." fullScreen />}>
-                <Switch>
-                  {configs.isMoz() && <Route path="/" exact component={LandingPage} />}
-                  {!configs.isMoz() && <RedirectRoute path="/" exact to="/projects" />}
-                  <Route path="/whats-new" exact component={WhatsNewPage} />
-                  <RedirectRoute path="/new" exact to="/projects" />
-                  <Route path="/login" exact component={LoginPage} />
-                  <Route path="/logout" exact component={LogoutPage} />
-                  <Route path="/projects/create" exact component={CreateProjectPage} />
-                  <RedirectRoute path="/projects/templates" exact to="/projects/create" />
-                  <Route path="/projects" exact component={ProjectsPage} />
-                  <Route path="/projects/:projectId" component={EditorContainer} />
-                  <Route path="/kits/package" component={PackageKitPage} />
-                  <Route path="/scenes/:sceneId" component={CreateScenePage} />
-                  <Route render={() => <Error message="Page not found." />} />
-                </Switch>
-              </Column>
-              <Telemetry />
-            </Router>
-          </ThemeProvider>
+          <LanguageProvider>
+            <ThemeProvider theme={theme}>
+              <Router basename={process.env.ROUTER_BASE_PATH}>
+                <GlobalStyle />
+                <Column as={Suspense} fallback={<Loading message="Loading..." fullScreen />}>
+                  <Switch>
+                    {configs.isMoz() && <Route path="/" exact component={LandingPage} />}
+                    {!configs.isMoz() && <RedirectRoute path="/" exact to="/projects" />}
+                    <Route path="/whats-new" exact component={WhatsNewPage} />
+                    <RedirectRoute path="/new" exact to="/projects" />
+                    <Route path="/login" exact component={LoginPage} />
+                    <Route path="/logout" exact component={LogoutPage} />
+                    <Route path="/projects/create" exact component={CreateProjectPage} />
+                    <RedirectRoute path="/projects/templates" exact to="/projects/create" />
+                    <Route path="/projects" exact component={ProjectsPage} />
+                    <Route path="/projects/:projectId" component={EditorContainer} />
+                    <Route path="/kits/package" component={PackageKitPage} />
+                    <Route path="/scenes/:sceneId" component={CreateScenePage} />
+                    <Route render={() => <Error message="Page not found." />} />
+                  </Switch>
+                </Column>
+                <Telemetry />
+              </Router>
+            </ThemeProvider>
+          </LanguageProvider>
         </AuthContextProvider>
       </ApiContextProvider>
     );

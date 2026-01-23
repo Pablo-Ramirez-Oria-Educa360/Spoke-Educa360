@@ -1,0 +1,14 @@
+{
+  "common.language.label": "Idioma",
+  "navbar.languageToggle.en": "EN",
+  "navbar.languageToggle.es": "ES",
+  "navbar.language.title": "Idioma",
+  "navbar.language.current": "Idioma: {lang}",
+  "projects.hero.titleDefault": "Bienvenido",
+  "projects.hero.titleMoz": "Bienvenido a Spoke",
+  "projects.hero.subtitle": "Si eres nuevo aquí te recomendamos completar el tutorial. De lo contrario, empieza a crear un proyecto desde cero o usando una de nuestras plantillas.",
+  "projects.actions.startTutorial": "Empezar tutorial",
+  "projects.list.heading": "Proyectos",
+  "projects.actions.newProject": "Nuevo proyecto",
+  "projects.actions.deleteProject": "Eliminar proyecto"
+}

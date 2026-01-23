@@ -1,0 +1,14 @@
+{
+  "common.language.label": "Language",
+  "navbar.languageToggle.en": "EN",
+  "navbar.languageToggle.es": "ES",
+  "navbar.language.title": "Language",
+  "navbar.language.current": "Language: {lang}",
+  "projects.hero.titleDefault": "Welcome",
+  "projects.hero.titleMoz": "Welcome a Spoke",
+  "projects.hero.subtitle": "If you're new here we recommend going through the tutorial. Otherwise, jump right in and create a project from scratch or from one of our templates.",
+  "projects.actions.startTutorial": "Start Tutorial",
+  "projects.list.heading": "Projects",
+  "projects.actions.newProject": "New Project",
+  "projects.actions.deleteProject": "Delete Project"
+}
