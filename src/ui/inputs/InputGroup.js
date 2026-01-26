@@ -48,7 +48,7 @@ export const InputGroupInfoIcon = styled(QuestionCircle)`
   width: 20px;
   display: flex;
   padding-left: 8px;
-  color: ${props => props.theme.blue};
+  color: ${props => props.theme.orange};
   cursor: pointer;
   align-self: center;
 `;

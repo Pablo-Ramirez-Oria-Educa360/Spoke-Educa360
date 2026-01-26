@@ -23,7 +23,7 @@ const StepperButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${props => (props.value ? props.theme.blue : props.theme.toolbar)};
+  background-color: ${props => (props.value ? props.theme.orange : props.theme.toolbar)};
 
   border: 1px solid ${props => props.theme.border};
   color: ${props => props.theme.text};
@@ -39,11 +39,11 @@ const StepperButton = styled.button`
   /* stylelint-enable */
 
   :hover {
-    background-color: ${props => props.theme.blueHover};
+    background-color: ${props => props.theme.orangeHover};
   }
 
   :active {
-    background-color: ${props => props.theme.blue};
+    background-color: ${props => props.theme.orange};
   }
 `;
 

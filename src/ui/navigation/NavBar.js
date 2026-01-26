@@ -7,10 +7,7 @@ import styled from "styled-components";
 import withStrings from "../i18n/withStrings";
 import { SelectMenu, Button as EvergreenButton } from "evergreen-ui";
 
-const LANGUAGES = [
-  { code: "en", label: "English" },
-  { code: "es", label: "Español" }
-];
+const LANGUAGES = [{ code: "en", label: "English" }, { code: "es", label: "Español" }];
 
 const StyledNavBar = styled.header`
   position: relative;
@@ -33,7 +30,10 @@ const IconContainer = styled.div`
   }
 
   img {
-    width: 48px;
+    height: 48px;
+    width: auto;
+    max-width: 200px;
+    object-fit: contain;
     display: block;
   }
 `;
@@ -129,6 +129,7 @@ class NavBar extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <StyledNavBar>
         <IconContainer>
@@ -140,24 +141,21 @@ class NavBar extends Component {
           <nav>
             <NavList>
               <li>
-                <Link to="/whats-new">What&apos;s New</Link>
-              </li>
-              <li>
                 <a href="https://github.com/Hubs-Foundation/Spoke" rel="noopener noreferrer">
-                  Source
+                  {t("navbar.links.source", null, "Source")}
                 </a>
               </li>
               {configs.isMoz() && (
                 <li>
                   <a href="https://discord.gg/wHmY4nd" rel="noopener noreferrer">
-                    Community
+                    {t("navbar.links.community", null, "Community")}
                   </a>
                 </li>
               )}
               {configs.isMoz() && (
                 <li>
                   <a href="https://hubsfoundation.org" rel="noopener noreferrer">
-                    Hubs
+                    {t("navbar.links.hubs", null, "Hubs")}
                   </a>
                 </li>
               )}
@@ -169,15 +167,15 @@ class NavBar extends Component {
             {this.props.isAuthenticated ? (
               <>
                 <li>
-                  <Link to="/projects">Projects</Link>
+                  <Link to="/projects">{t("navbar.links.projects", null, "Projects")}</Link>
                 </li>
                 <li>
-                  <Link to="/logout">Logout</Link>
+                  <Link to="/logout">{t("navbar.links.logout", null, "Logout")}</Link>
                 </li>
               </>
             ) : (
               <li>
-                <Link to="/login">Login</Link>
+                <Link to="/login">{t("navbar.links.login", null, "Login")}</Link>
               </li>
             )}
           </NavList>

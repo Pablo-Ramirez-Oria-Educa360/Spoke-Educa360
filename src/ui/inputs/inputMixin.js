@@ -9,11 +9,11 @@ export default css`
   padding: 6px 8px;
 
   &:hover {
-    border-color: ${props => props.theme.blueHover};
+    border-color: ${props => props.theme.orangeHover};
   }
 
   &:focus {
-    border-color: ${props => props.theme.blue};
+    border-color: ${props => props.theme.orange};
   }
 
   &:disabled {

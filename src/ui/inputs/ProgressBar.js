@@ -11,7 +11,7 @@ const ProgressBarContainer = styled.div`
     display: block;
     height: 100%;
     border-radius: 4px;
-    background-color: ${props => props.theme.blue};
+    background-color: ${props => props.theme.orange};
     position: relative;
     overflow: hidden;
 

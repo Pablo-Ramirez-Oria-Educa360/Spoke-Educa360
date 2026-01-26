@@ -21,11 +21,11 @@ const StyledResetButton = styled.div`
   padding: 4px;
 
   :hover {
-    background-color: ${props => props.theme.blueHover};
+    background-color: ${props => props.theme.orangeHover};
   }
 
   :active {
-    background-color: ${props => props.theme.blue};
+    background-color: ${props => props.theme.orange};
   }
 
   ${props =>

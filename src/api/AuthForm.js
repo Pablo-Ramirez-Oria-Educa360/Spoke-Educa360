@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import configs from "../configs";
 import styled from "styled-components";
 import Input from "../ui/inputs/Input";
 import { PRIVACY, TERMS } from "../constants";
+import withStrings from "../ui/i18n/withStrings";
 
 const StyledAuthForm = styled.form`
   display: flex;
@@ -21,16 +21,17 @@ const StyledAuthForm = styled.form`
     display: inline-block;
     border: none;
     border-radius: 4px;
-    background: ${props => props.theme.blue};
+    background: ${props => props.theme.orange};
     color: ${props => props.theme.white};
     white-space: nowrap;
     min-height: 36px;
     font-size: 16px;
     padding: 1px 6px;
+    margin-top: 8px;
 
     &:hover,
     &:active {
-      background-color: ${props => props.theme.bluePressed};
+      background-color: ${props => props.theme.orangeHover};
     }
   }
 
@@ -57,13 +58,18 @@ const ErrorMessage = styled.p`
 `;
 
 const LegalText = styled.p`
-  margin-bottom: 20px;
+  margin-bottom: 28px;
 `;
 
-export default class AuthForm extends Component {
+class AuthForm extends Component {
   static propTypes = {
     error: PropTypes.string,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    t: PropTypes.func
+  };
+
+  static defaultProps = {
+    t: key => key
   };
 
   state = {
@@ -80,31 +86,34 @@ export default class AuthForm extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <StyledAuthForm onSubmit={this.onSubmit}>
         {this.props.error && <ErrorMessage>{this.props.error}</ErrorMessage>}
-        <h3>Register or Login</h3>
-        <h4>Login to save projects and publish scenes{configs.isMoz() && " to Hubs"}.</h4>
+        <h3>{t("authForm.title", null, "Sign in")}</h3>
+        <h4>{t("authForm.subtitle", null, "Sign in to create and save immersive classrooms in Educamaker.")}</h4>
         <FormInput
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder={t("authForm.emailPlaceholder", null, "Email")}
           value={this.state.email}
           onChange={this.onEmailChange}
         />
         <LegalText>
-          By proceeding, you agree to the{" "}
+          {t("authForm.legal.prefix", null, "By proceeding, you agree to the")}{" "}
           <a rel="noopener noreferrer" target="_blank" href={TERMS}>
-            terms of use (TBD)
+            {t("authForm.legal.terms", null, "terms of use")} (TBD)
           </a>{" "}
-          and{" "}
+          {t("authForm.legal.and", null, "and")}{" "}
           <a rel="noopener noreferrer" target="_blank" href={PRIVACY}>
-            privacy notice (TBD)
+            {t("authForm.legal.privacy", null, "privacy notice")} (TBD)
           </a>{" "}
           .
         </LegalText>
-        <button type="submit">Send Magic Link</button>
+        <button type="submit">{t("authForm.magicLink", null, "Send Magic Link")}</button>
       </StyledAuthForm>
     );
   }
 }
+
+export default withStrings(AuthForm);

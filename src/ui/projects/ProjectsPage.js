@@ -15,26 +15,52 @@ import { Button } from "../inputs/Button";
 import Footer from "../navigation/Footer";
 import { MediumButton } from "../inputs/Button";
 import { Link } from "react-router-dom";
-import LatestUpdate from "../whats-new/LatestUpdate";
 import { connectMenu, ContextMenu, MenuItem } from "../layout/ContextMenu";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import withStrings from "../i18n/withStrings";
 
 export const ProjectsSection = styled.section`
-  padding-bottom: 100px;
+  padding: ${props => (props.variant === "hero" ? "80px 0 40px" : "80px 0 100px")};
   display: flex;
   flex: ${props => (props.flex === undefined ? 1 : props.flex)};
+  background: ${props =>
+    props.variant === "hero"
+      ? `linear-gradient(180deg, rgba(255, 104, 0, 0.18) 0%, rgba(0, 0, 0, 0) 100%)`
+      : "transparent"};
+  ${props =>
+    props.variant === "hero" &&
+    css`
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: -25%;
+        background: radial-gradient(700px 380px at 15% 20%, rgba(255, 104, 0, 0.32), transparent 62%),
+          radial-gradient(820px 420px at 85% 0%, rgba(255, 104, 0, 0.26), transparent 58%);
+        pointer-events: none;
+      }
+
+      & > * {
+        position: relative;
+        z-index: 1;
+      }
+    `}
+  ${props => props.compactTop && "padding-top: 40px;"}
 
   &:first-child {
     padding-top: 100px;
   }
 
   h1 {
-    font-size: 36px;
+    font-size: 40px;
   }
 
   h2 {
     font-size: 16px;
+    line-height: 1.6;
+    color: ${props => props.theme.text2};
   }
 `;
 
@@ -49,6 +75,11 @@ export const ProjectsContainer = styled.div`
 
 const WelcomeContainer = styled(ProjectsContainer)`
   align-items: center;
+  background-color: ${props => props.theme.panel2};
+  border: 1px solid ${props => props.theme.border};
+  border-radius: 14px;
+  box-shadow: ${props => props.theme.shadow30};
+  padding: 32px 28px;
 
   & > * {
     text-align: center;
@@ -64,10 +95,43 @@ const WelcomeContainer = styled(ProjectsContainer)`
 `;
 
 export const ProjectsHeader = styled.div`
-  margin-bottom: 36px;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid ${props => props.theme.border};
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const PrimaryActionButton = styled(Button)`
+  background: ${props => props.theme.orange};
+  border-radius: 10px;
+  padding: 6px 12px;
+
+  &:hover {
+    color: ${props => props.theme.white};
+    background-color: ${props => props.theme.orangeHover};
+  }
+
+  &:active {
+    color: ${props => props.theme.white};
+    background-color: ${props => props.theme.orangePressed};
+  }
+`;
+
+const PrimaryActionMediumButton = styled(MediumButton)`
+  background: ${props => props.theme.orange};
+  border-radius: 12px;
+
+  &:hover {
+    color: ${props => props.theme.white};
+    background-color: ${props => props.theme.orangeHover};
+  }
+
+  &:active {
+    color: ${props => props.theme.white};
+    background-color: ${props => props.theme.orangePressed};
+  }
 `;
 
 const contextMenuId = "project-menu";
@@ -156,7 +220,7 @@ class ProjectsPage extends Component {
         <NavBar />
         <main>
           {!isAuthenticated || (projects.length === 0 && !loading) ? (
-            <ProjectsSection flex={0}>
+            <ProjectsSection flex={0} variant="hero">
               <WelcomeContainer>
                 <h1>
                   {configs.isMoz()
@@ -167,18 +231,16 @@ class ProjectsPage extends Component {
                   {t(
                     "projects.hero.subtitle",
                     null,
-                    "If you&#39;re new here we recommend going through the tutorial. Otherwise, jump right in and create a project from scratch or from one of our templates."
+                    "Welcome to Educamaker, the immersive classroom builder. If you're new here we recommend going through the tutorial. Otherwise, jump right in and create a project from scratch or from one of our templates."
                   )}
                 </h2>
-                <MediumButton as={Link} to="/projects/tutorial">
+                <PrimaryActionMediumButton as={Link} to="/projects/tutorial">
                   {t("projects.actions.startTutorial", null, "Start Tutorial")}
-                </MediumButton>
+                </PrimaryActionMediumButton>
               </WelcomeContainer>
             </ProjectsSection>
-          ) : (
-            <LatestUpdate />
-          )}
-          <ProjectsSection>
+          ) : null}
+          <ProjectsSection compactTop>
             <ProjectsContainer>
               <ProjectsHeader>
                 <h1>{t("projects.list.heading", null, "Projects")}</h1>
@@ -187,9 +249,9 @@ class ProjectsPage extends Component {
                 <ProjectGridHeader>
                   <ProjectGridHeaderRow></ProjectGridHeaderRow>
                   <ProjectGridHeaderRow>
-                    <Button as={Link} to="/projects/create">
+                    <PrimaryActionButton as={Link} to="/projects/create">
                       {t("projects.actions.newProject", null, "New Project")}
-                    </Button>
+                    </PrimaryActionButton>
                   </ProjectGridHeaderRow>
                 </ProjectGridHeader>
                 <ProjectGridContent>
@@ -200,6 +262,8 @@ class ProjectsPage extends Component {
                       projects={projects}
                       scenes={scenes}
                       newProjectPath="/projects/templates"
+                      newProjectLabel={t("projects.actions.newProject", null, "New Project")}
+                      loadingLabel={t("projects.loading", null, "Loading...")}
                       contextMenuId={contextMenuId}
                     />
                   )}

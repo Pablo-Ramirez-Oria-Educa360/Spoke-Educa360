@@ -7,6 +7,7 @@ import { getCanvasBlob } from "../utils/thumbnails";
 import makeRenderer from "./makeRenderer";
 import SpokeBatchRawUniformGroup from "./SpokeBatchRawUniformGroup";
 import ScenePreviewCameraNode from "../nodes/ScenePreviewCameraNode";
+import theme from "../../ui/theme";
 
 /**
  * @author mrdoob / http://mrdoob.com/
@@ -44,7 +45,7 @@ class UnlitRenderMode extends RenderMode {
       editor.selectedTransformRoots,
       spokeRenderer
     );
-    this.outlinePass.edgeColor = new Color("#006EFF");
+    this.outlinePass.edgeColor = new Color(theme.orange);
     this.outlinePass.renderToScreen = true;
     this.effectComposer.addPass(this.outlinePass);
     this.enableShadows = false;

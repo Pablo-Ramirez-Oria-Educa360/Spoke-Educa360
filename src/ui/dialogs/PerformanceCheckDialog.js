@@ -44,7 +44,7 @@ const PerformanceItemContainer = styled.li`
 
   a {
     white-space: nowrap;
-    color: ${props => props.theme.blue};
+    color: ${props => props.theme.orange};
   }
 
   p {

@@ -27,7 +27,7 @@ const MediaGridItemContainer = styled.div`
   :hover,
   :focus {
     color: inherit;
-    border-color: ${props => props.theme.blueHover};
+    border-color: ${props => props.theme.orangeHover};
   }
 
   :active {

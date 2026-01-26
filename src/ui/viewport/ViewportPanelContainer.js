@@ -17,7 +17,7 @@ import Stats from "./Stats";
 
 function borderColor(props, defaultColor) {
   if (props.canDrop) {
-    return props.theme.blue;
+    return props.theme.orange;
   } else if (props.error) {
     return props.theme.error;
   } else {
@@ -70,15 +70,15 @@ const ToolbarIconContainer = styled.div`
   align-items: center;
   padding: 0 8px;
   border-left: 1px solid rgba(255, 255, 255, 0.2);
-  background-color: ${props => (props.value ? props.theme.blue : "transparent")};
+  background-color: ${props => (props.value ? props.theme.orange : "transparent")};
   cursor: pointer;
 
   :hover {
-    background-color: ${props => (props.value ? props.theme.blueHover : props.theme.hover)};
+    background-color: ${props => (props.value ? props.theme.orangeHover : props.theme.hover)};
   }
 
   :active {
-    background-color: ${props => (props.value ? props.theme.bluePressed : props.theme.hover2)};
+    background-color: ${props => (props.value ? props.theme.orangePressed : props.theme.hover2)};
   }
 `;
 

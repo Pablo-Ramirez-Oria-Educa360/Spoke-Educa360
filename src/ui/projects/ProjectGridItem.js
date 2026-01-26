@@ -7,6 +7,8 @@ import { MenuButton } from "../inputs/Button";
 import StylableContextMenuTrigger from "./StylableContextMenuTrigger";
 import { EllipsisV } from "styled-icons/fa-solid/EllipsisV";
 
+const ACCENT_ORANGE_SHADOW = "rgba(255, 104, 0, 0.18)";
+
 function collectMenuProps({ project }) {
   return { project };
 }
@@ -16,14 +18,18 @@ const StyledProjectGridItem = styled(Link)`
   flex-direction: column;
   height: 220px;
   border-radius: 6px;
-  background-color: ${props => props.theme.toolbar};
+  background-color: ${props => props.theme.panel2};
   text-decoration: none;
-  border: 1px solid transparent;
+  border: 1px solid ${props => props.theme.border};
   position: relative;
+  box-shadow: ${props => props.theme.shadow15};
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 
   &:hover {
     color: inherit;
-    border-color: ${props => props.theme.selected};
+    border-color: ${props => props.theme.orange};
+    box-shadow: 0 6px 16px ${ACCENT_ORANGE_SHADOW};
+    transform: translateY(-2px);
   }
 `;
 
@@ -32,7 +38,7 @@ const Pill = styled.i`
   top: 5px;
   right: 5px;
   padding: 3px 8px;
-  background-color: ${props => props.theme.pink};
+  background-color: ${props => props.theme.orange};
   color: white;
   border-radius: 6px;
   text-align: center;
@@ -71,7 +77,7 @@ const ThumbnailContainer = styled.div`
   flex: 1 0 auto;
   justify-content: center;
   align-items: stretch;
-  background-color: ${props => props.theme.panel};
+  background-color: ${props => props.theme.inputBackground};
   overflow: hidden;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;

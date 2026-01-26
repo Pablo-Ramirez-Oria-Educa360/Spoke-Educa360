@@ -12,7 +12,8 @@ const StyledLoading = styled.div`
   width: ${props => (props.fullScreen ? "100vw" : "100%")};
   min-height: 300px;
 
-  svg {
+  svg,
+  img {
     margin-bottom: 20px;
   }
 `;

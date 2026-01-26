@@ -11,10 +11,10 @@ const StyledToolButton = styled.button`
   cursor: pointer;
   position: relative;
 
-  background-color: ${props => (props.selected ? props.theme.blue : props.theme.toolbar)};
+  background-color: ${props => (props.selected ? props.theme.orange : props.theme.toolbar)};
 
   &:hover {
-    background-color: ${props => (props.selected ? props.theme.blueHover : props.theme.panel2)};
+    background-color: ${props => (props.selected ? props.theme.orangeHover : props.theme.panel2)};
   }
 `;
 

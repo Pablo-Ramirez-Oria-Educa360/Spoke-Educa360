@@ -41,11 +41,11 @@ const StyledNumericInput = styled.input`
   padding-right: ${props => (props.unit ? props.unit.length * 6 + 10 + "px" : 0)};
 
   &:hover {
-    border-color: ${props => props.theme.blueHover};
+    border-color: ${props => props.theme.orangeHover};
   }
 
   &:focus {
-    border-color: ${props => props.theme.blue};
+    border-color: ${props => props.theme.orange};
   }
 
   &:disabled {

@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
+import theme from "../theme";
 
 const staticStyle = {
   container: base => ({
@@ -49,7 +50,7 @@ const staticStyle = {
   }),
   option: (base, { isFocused }) => ({
     ...base,
-    backgroundColor: isFocused ? "#006EFF" : "black",
+    backgroundColor: isFocused ? theme.orange : "black",
     cursor: "pointer"
   }),
   singleValue: (base, { isDisabled }) => ({
@@ -58,7 +59,7 @@ const staticStyle = {
   }),
   multiValue: (base, { isDisabled }) => ({
     ...base,
-    backgroundColor: isDisabled ? "grey" : "#006EFF"
+    backgroundColor: isDisabled ? "grey" : theme.orange
   }),
   multiValueLabel: (base, { isDisabled }) => ({
     ...base,

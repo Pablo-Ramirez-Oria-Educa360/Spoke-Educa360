@@ -100,11 +100,11 @@ const GlobalStyle = createGlobalStyle`
     color: ${props => props.theme.text};
 
     &:hover {
-      color: ${props => props.theme.blueHover};
+      color: ${props => props.theme.orangeHover};
     }
 
     &:active {
-      color: ${props => props.theme.bluePressed};
+      color: ${props => props.theme.orangePressed};
     }
   }
 

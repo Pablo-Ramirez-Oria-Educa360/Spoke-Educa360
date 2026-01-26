@@ -36,7 +36,7 @@ const UniformButtonContainer = styled.div`
   }
 
   label:hover {
-    color: ${props => props.theme.blueHover};
+    color: ${props => props.theme.orangeHover};
   }
 `;
 

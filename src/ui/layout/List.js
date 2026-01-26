@@ -21,12 +21,12 @@ export const ListItem = styled.li`
 
   :hover,
   :focus {
-    background-color: ${props => (props.selected ? props.theme.blueHover : props.theme.hover)};
+    background-color: ${props => (props.selected ? props.theme.orangeHover : props.theme.hover)};
     color: ${props => props.theme.text};
   }
 
   :active {
-    background-color: ${props => props.theme.bluePressed};
+    background-color: ${props => props.theme.orangePressed};
     color: ${props => props.theme.text};
   }
 `;

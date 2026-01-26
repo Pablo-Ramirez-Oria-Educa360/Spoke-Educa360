@@ -14,16 +14,87 @@ import {
   ErrorMessage
 } from "./ProjectGrid";
 import Footer from "../navigation/Footer";
-import PrimaryLink from "../inputs/PrimaryLink";
 import { Button } from "../inputs/Button";
 import { ProjectsSection, ProjectsContainer, ProjectsHeader } from "./ProjectsPage";
 import { ApiContext } from "../contexts/ApiContext";
 import { Link } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroller";
 import usePaginatedSearch from "./usePaginatedSearch";
+import useStrings from "../i18n/useStrings";
+import styled from "styled-components";
+import { ArrowLeft } from "styled-icons/fa-solid/ArrowLeft";
+
+const CreateHeroCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  background-color: ${props => props.theme.panel2};
+  border: 1px solid ${props => props.theme.border};
+  border-radius: 14px;
+  box-shadow: ${props => props.theme.shadow30};
+  padding: 28px;
+
+  h1 {
+    font-size: 32px;
+    margin: 0;
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: ${props => props.theme.text2};
+    line-height: 1.6;
+    max-width: 640px;
+  }
+
+  @media (min-width: 720px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+`;
+
+const PrimaryActionButton = styled(Button)`
+  background: ${props => props.theme.orange};
+  border-radius: 10px;
+  padding: 6px 12px;
+
+  &:hover {
+    color: ${props => props.theme.white};
+    background-color: ${props => props.theme.orangeHover};
+  }
+
+  &:active {
+    color: ${props => props.theme.white};
+    background-color: ${props => props.theme.orangePressed};
+  }
+`;
+
+const BackButton = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid ${props => props.theme.orange};
+  color: ${props => props.theme.orange};
+  font-size: 0.95em;
+  text-decoration: none;
+
+  &:hover {
+    color: ${props => props.theme.white};
+    background-color: ${props => props.theme.orange};
+  }
+`;
+
+const BackIcon = styled(ArrowLeft)`
+  width: 14px;
+  height: 14px;
+`;
 
 export default function CreateProjectPage({ history, location }) {
   const api = useContext(ApiContext);
+  const { t } = useStrings();
 
   const queryParams = new URLSearchParams(location.search);
 
@@ -103,31 +174,54 @@ export default function CreateProjectPage({ history, location }) {
     <>
       <NavBar />
       <main>
-        <ProjectsSection>
+        <ProjectsSection flex={0} variant="hero">
+          <ProjectsContainer>
+            <CreateHeroCard>
+              <div>
+                <h1>{t("projects.create.heading", null, "New Project")}</h1>
+                <p>
+                  {t(
+                    "projects.create.subtitle",
+                    null,
+                    "Choose a featured template to start quickly, or create an empty project and build your own classroom."
+                  )}
+                </p>
+              </div>
+              <BackButton to="/projects">
+                <BackIcon />
+                {t("projects.create.back", null, "Back to projects")}
+              </BackButton>
+            </CreateHeroCard>
+          </ProjectsContainer>
+        </ProjectsSection>
+        <ProjectsSection compactTop>
           <ProjectsContainer>
             <ProjectsHeader>
-              <h1>New Project</h1>
-              <PrimaryLink to="/projects">Back to projects</PrimaryLink>
+              <h1>{t("projects.create.templatesHeading", null, "Templates")}</h1>
             </ProjectsHeader>
             <ProjectGridContainer>
               <ProjectGridHeader>
                 <ProjectGridHeaderRow>
                   <Filter onClick={onSetFeaturedRemixable} active={params.filter === "featured-remixable"}>
-                    Featured
+                    {t("projects.create.filter.featured", null, "Featured")}
                   </Filter>
                   <Filter onClick={onSetAll} active={params.filter === "remixable"}>
-                    All
+                    {t("projects.create.filter.all", null, "All")}
                   </Filter>
                   <Separator />
-                  <SearchInput placeholder="Search scenes..." value={params.q} onChange={onChangeQuery} />
+                  <SearchInput
+                    placeholder={t("projects.create.search.placeholder", null, "Search scenes...")}
+                    value={params.q}
+                    onChange={onChangeQuery}
+                  />
                 </ProjectGridHeaderRow>
                 <ProjectGridHeaderRow>
-                  <Button as={Link} to="/scenes/new">
-                    Import From Blender
-                  </Button>
-                  <Button as={Link} to="/projects/new">
-                    New Empty Project
-                  </Button>
+                  <PrimaryActionButton as={Link} to="/scenes/new">
+                    {t("projects.create.importBlender", null, "Import From Blender")}
+                  </PrimaryActionButton>
+                  <PrimaryActionButton as={Link} to="/projects/new">
+                    {t("projects.create.newEmptyProject", null, "New Empty Project")}
+                  </PrimaryActionButton>
                 </ProjectGridHeaderRow>
               </ProjectGridHeader>
               <ProjectGridContent>
@@ -145,7 +239,8 @@ export default function CreateProjectPage({ history, location }) {
                     <ProjectGrid
                       projects={filteredEntries}
                       newProjectPath="/projects/new"
-                      newProjectLabel="New Empty Project"
+                      newProjectLabel={t("projects.create.newEmptyProject", null, "New Empty Project")}
+                      loadingLabel={t("projects.loading", null, "Loading...")}
                       onSelectProject={onSelectScene}
                       loading={loading}
                     />

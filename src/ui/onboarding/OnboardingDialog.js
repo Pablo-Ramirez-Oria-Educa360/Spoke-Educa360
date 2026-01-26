@@ -25,7 +25,7 @@ const Content = styled.div`
 const LeftContent = styled.div`
   display: flex;
   width: 360px;
-  background-color: #006eff;
+  background-color: ${props => props.theme.orange};
   background-size: cover;
   border-top-left-radius: inherit;
   align-items: center;

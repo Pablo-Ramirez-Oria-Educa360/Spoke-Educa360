@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 function borderColor(props, defaultColor) {
   if (props.canDrop) {
-    return props.theme.blue;
+    return props.theme.orange;
   } else if (props.error) {
     return props.theme.error;
   } else {
@@ -19,11 +19,11 @@ const Input = styled.input`
   padding: 6px 8px;
 
   &:hover {
-    border-color: ${props => borderColor(props, props.theme.blueHover)};
+    border-color: ${props => borderColor(props, props.theme.orangeHover)};
   }
 
   &:focus {
-    border-color: ${props => borderColor(props, props.theme.blue)};
+    border-color: ${props => borderColor(props, props.theme.orange)};
   }
 
   &:disabled {

@@ -6,7 +6,7 @@ export const Button = styled.button.attrs(props => ({
   display: flex;
   border: none;
   border-radius: 4px;
-  background: ${props => props.theme.blue};
+  background: ${props => props.theme.orange};
   color: ${props => props.theme.white};
   white-space: nowrap;
   min-height: 24px;
@@ -21,12 +21,12 @@ export const Button = styled.button.attrs(props => ({
 
   &:hover {
     color: ${props => props.theme.text};
-    background-color: ${props => props.theme.bluePressed};
+    background-color: ${props => props.theme.orangePressed};
   }
 
   &:active {
     color: ${props => props.theme.text};
-    background-color: ${props => props.theme.bluePressed};
+    background-color: ${props => props.theme.orangePressed};
   }
 
   &:disabled {

@@ -120,16 +120,16 @@ const StyledToggleButton = styled.div`
   align-items: center;
   width: 24px;
   height: 24px;
-  background-color: ${props => (props.value ? props.theme.blue : props.theme.toolbar)};
+  background-color: ${props => (props.value ? props.theme.orange : props.theme.toolbar)};
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 
   :hover {
-    background-color: ${props => props.theme.blueHover};
+    background-color: ${props => props.theme.orangeHover};
   }
 
   :active {
-    background-color: ${props => props.theme.blue};
+    background-color: ${props => props.theme.orange};
   }
 `;
 

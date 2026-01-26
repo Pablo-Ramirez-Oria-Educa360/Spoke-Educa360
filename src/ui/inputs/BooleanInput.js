@@ -28,7 +28,7 @@ const BooleanCheck = styled(Check)`
   position: absolute;
   top: 3px;
   left: 2px;
-  color: ${props => props.theme.blue};
+  color: ${props => props.theme.orange};
 `;
 
 export default class BooleanInput extends Component {

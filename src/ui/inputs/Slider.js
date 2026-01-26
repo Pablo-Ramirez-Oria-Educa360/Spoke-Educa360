@@ -15,7 +15,7 @@ const SliderGlobalStyles = createGlobalStyle`
   .rc-slider-track {
     position: absolute;
     height: 2px;
-    background-color: ${props => props.theme.blue};
+    background-color: ${props => props.theme.orange};
     border-radius: 2px;
   }
 
@@ -40,12 +40,12 @@ const SliderGlobalStyles = createGlobalStyle`
     outline: none;
 
       &:hover {
-        border: solid 2px ${props => props.theme.blue};
+        border: solid 2px ${props => props.theme.orange};
         background-color: ${props => props.theme.white};
       }
 
       &:active {
-        border:  2px solid ${props => props.theme.blue};
+        border:  2px solid ${props => props.theme.orange};
         background-color: ${props => props.theme.white};
       }
     }

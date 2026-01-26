@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import hubsLogo from "../../assets/hubs-logo.png";
 import styled from "styled-components";
 import configs from "../../configs";
 import { TERMS, PRIVACY } from "../../constants";
+import withStrings from "../i18n/withStrings";
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -58,45 +59,51 @@ const NavListItem = styled.li`
   }
 `;
 
-export default class Footer extends Component {
+class Footer extends Component {
+  static propTypes = {
+    t: PropTypes.func
+  };
+
+  static defaultProps = {
+    t: key => key
+  };
+
   render() {
+    const { t } = this.props;
     return (
       <StyledFooter>
         <nav>
           <NavList>
             <NavListItem mobileOnly>
-              <Link to="/whats-new">What&apos;s New</Link>
-            </NavListItem>
-            <NavListItem mobileOnly>
               <a href="https://github.com/Hubs-Foundation/Spoke" rel="noopener noreferrer">
-                Source
+                {t("footer.source", null, "Source")}
               </a>
             </NavListItem>
             {configs.isMoz() && (
               <NavListItem mobileOnly>
                 <a href="https://discord.gg/wHmY4nd" rel="noopener noreferrer">
-                  Community
+                  {t("footer.community", null, "Community")}
                 </a>
               </NavListItem>
             )}
             {configs.isMoz() && (
               <NavListItem mobileOnly>
                 <a href="https://hubsfoundation.org" rel="noopener noreferrer">
-                  Hubs
+                  {t("footer.hubs", null, "Hubs")}
                 </a>
               </NavListItem>
             )}
             {configs.isMoz() && (
               <NavListItem>
                 <a href={TERMS} rel="noopener noreferrer">
-                  Terms of Use {"(TBD)"}
+                  {t("footer.terms", null, "Terms of Use")} {"(TBD)"}
                 </a>
               </NavListItem>
             )}
             {configs.isMoz() && (
               <NavListItem>
                 <a href={PRIVACY} rel="noopener noreferrer">
-                  Privacy Notice {"(TBD)"}
+                  {t("footer.privacy", null, "Privacy Notice")} {"(TBD)"}
                 </a>
               </NavListItem>
             )}
@@ -113,3 +120,5 @@ export default class Footer extends Component {
     );
   }
 }
+
+export default withStrings(Footer);

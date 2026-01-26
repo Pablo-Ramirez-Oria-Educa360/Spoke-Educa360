@@ -45,7 +45,7 @@ const ViewMore = styled.div`
   text-align: center;
   margin-left: 1em;
   a {
-    color: ${props => props.theme.blue};
+    color: ${props => props.theme.orange};
   }
 `;
 

@@ -14,7 +14,8 @@ const StyledError = styled.div`
   width: 100vw;
   color: ${props => props.theme.red};
 
-  svg {
+  svg,
+  img {
     margin-bottom: 20px;
   }
 `;

@@ -18,7 +18,7 @@ const DragPreviewContainer = styled.div.attrs(props => ({
     transform: `translate(${props.offset.x}px, ${props.offset.y}px)`
   }
 }))`
-  background-color: ${props => props.theme.blue};
+  background-color: ${props => props.theme.orange};
   opacity: 0.3;
   color: ${props => props.theme.text};
   padding: 4px;

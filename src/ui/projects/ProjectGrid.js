@@ -7,20 +7,26 @@ import StringInput from "../inputs/StringInput";
 import { Link } from "react-router-dom";
 import { Plus } from "styled-icons/fa-solid/Plus";
 
+const ACCENT_ORANGE_SHADOW = "rgba(255, 104, 0, 0.18)";
+
 const ProjectGridItemContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 220px;
   border-radius: 6px;
   text-decoration: none;
-  background-color: ${props => props.theme.toolbar};
+  background-color: ${props => props.theme.panel2};
   justify-content: center;
   align-items: center;
-  border: 1px solid transparent;
+  border: 1px solid ${props => props.theme.border};
+  box-shadow: ${props => props.theme.shadow15};
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 
   &:hover {
     color: inherit;
-    border-color: ${props => props.theme.selected};
+    border-color: ${props => props.theme.orange};
+    box-shadow: 0 6px 16px ${ACCENT_ORANGE_SHADOW};
+    transform: translateY(-2px);
   }
 
   svg {
@@ -48,22 +54,34 @@ NewProjectGridItem.defaultProps = {
   label: "New Project"
 };
 
-export function LoadingProjectGridItem() {
+export function LoadingProjectGridItem({ label }) {
   return (
     <ProjectGridItemContainer>
-      <h3>Loading...</h3>
+      <h3>{label}</h3>
     </ProjectGridItemContainer>
   );
 }
 
+LoadingProjectGridItem.propTypes = {
+  label: PropTypes.string.isRequired
+};
+
 const StyledProjectGrid = styled.div`
   display: grid;
-  grid-gap: 20px;
+  grid-gap: 24px;
   width: 100%;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 `;
 
-export function ProjectGrid({ newProjectPath, newProjectLabel, projects, scenes, contextMenuId, loading }) {
+export function ProjectGrid({
+  newProjectPath,
+  newProjectLabel,
+  loadingLabel,
+  projects,
+  scenes,
+  contextMenuId,
+  loading
+}) {
   return (
     <StyledProjectGrid>
       {newProjectPath && !loading && <NewProjectGridItem path={newProjectPath} label={newProjectLabel} />}
@@ -74,7 +92,7 @@ export function ProjectGrid({ newProjectPath, newProjectLabel, projects, scenes,
       {projects.map(project => (
         <ProjectGridItem key={project.project_id || project.id} project={project} contextMenuId={contextMenuId} />
       ))}
-      {loading && <LoadingProjectGridItem />}
+      {loading && <LoadingProjectGridItem label={loadingLabel} />}
     </StyledProjectGrid>
   );
 }
@@ -85,7 +103,13 @@ ProjectGrid.propTypes = {
   scenes: PropTypes.arrayOf(PropTypes.object),
   newProjectPath: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   newProjectLabel: PropTypes.string,
+  loadingLabel: PropTypes.string,
   loading: PropTypes.bool
+};
+
+ProjectGrid.defaultProps = {
+  newProjectLabel: "New Project",
+  loadingLabel: "Loading..."
 };
 
 export const ProjectGridContainer = styled.div`
@@ -116,7 +140,7 @@ export const ProjectGridHeader = styled.div`
 export const Filter = styled.a`
   font-size: 1.25em;
   cursor: pointer;
-  color: ${props => (props.active ? props.theme.blue : props.theme.text)};
+  color: ${props => (props.active ? props.theme.orange : props.theme.text)};
 `;
 
 export const Separator = styled.div`
