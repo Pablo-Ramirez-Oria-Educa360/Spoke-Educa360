@@ -1,8 +1,8 @@
 name: spoke
 on:
-  push:
-    branches:
-    paths-ignore: ["README.md"]
+  # push:
+  #   branches:
+  #   paths-ignore: ["README.md"]
   workflow_dispatch:
 
 jobs:
