@@ -20,46 +20,24 @@ import styled, { css } from "styled-components";
 import withStrings from "../i18n/withStrings";
 
 export const ProjectsSection = styled.section`
-  padding: ${props => (props.variant === "hero" ? "80px 0 40px" : "80px 0 100px")};
+  padding: ${props => (props.variant === "hero" ? "64px 0 40px" : "64px 0 96px")};
   display: flex;
   flex: ${props => (props.flex === undefined ? 1 : props.flex)};
-  background: ${props =>
-    props.variant === "hero"
-      ? `linear-gradient(180deg, rgba(255, 104, 0, 0.18) 0%, rgba(0, 0, 0, 0) 100%)`
-      : "transparent"};
-  ${props =>
-    props.variant === "hero" &&
-    css`
-      position: relative;
-      overflow: hidden;
-
-      &::before {
-        content: "";
-        position: absolute;
-        inset: -25%;
-        background: radial-gradient(700px 380px at 15% 20%, rgba(255, 104, 0, 0.32), transparent 62%),
-          radial-gradient(820px 420px at 85% 0%, rgba(255, 104, 0, 0.26), transparent 58%);
-        pointer-events: none;
-      }
-
-      & > * {
-        position: relative;
-        z-index: 1;
-      }
-    `}
+  background: transparent;
+  ${props => props.variant === "hero" && css``}
   ${props => props.compactTop && "padding-top: 40px;"}
 
   &:first-child {
-    padding-top: 100px;
+    padding-top: 84px;
   }
 
   h1 {
-    font-size: 40px;
+    font-size: 36px;
   }
 
   h2 {
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 18px;
+    line-height: 1.4;
     color: ${props => props.theme.text2};
   }
 `;
@@ -69,20 +47,28 @@ export const ProjectsContainer = styled.div`
   flex: 1;
   flex-direction: column;
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 1360px;
   padding: 0 20px;
 `;
 
 const WelcomeContainer = styled(ProjectsContainer)`
-  align-items: center;
-  background-color: ${props => props.theme.panel2};
-  border: 1px solid ${props => props.theme.border};
-  border-radius: 14px;
-  box-shadow: ${props => props.theme.shadow30};
-  padding: 32px 28px;
+  align-items: flex-start;
+  background-color: ${props => props.theme.panel};
+  border: 1px solid ${props => props.theme.orange};
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px rgba(255, 104, 0, 0.35), 0 10px 22px rgba(255, 104, 0, 0.22);
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
 
-  & > * {
-    text-align: center;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 104, 0, 0.12), rgba(0, 0, 0, 0) 55%),
+      radial-gradient(720px 420px at 20% 10%, rgba(255, 104, 0, 0.24), transparent 65%);
+    opacity: 0.7;
+    pointer-events: none;
   }
 
   & > *:not(:first-child) {
@@ -90,14 +76,12 @@ const WelcomeContainer = styled(ProjectsContainer)`
   }
 
   h2 {
-    max-width: 480px;
+    max-width: 860px;
   }
 `;
 
 export const ProjectsHeader = styled.div`
-  margin-bottom: 24px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid ${props => props.theme.border};
+  margin-bottom: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -105,8 +89,10 @@ export const ProjectsHeader = styled.div`
 
 const PrimaryActionButton = styled(Button)`
   background: ${props => props.theme.orange};
+  border: 1px solid ${props => props.theme.orange};
   border-radius: 10px;
   padding: 6px 12px;
+  box-shadow: ${props => props.theme.shadow15};
 
   &:hover {
     color: ${props => props.theme.white};
@@ -121,7 +107,9 @@ const PrimaryActionButton = styled(Button)`
 
 const PrimaryActionMediumButton = styled(MediumButton)`
   background: ${props => props.theme.orange};
+  border: 1px solid ${props => props.theme.orange};
   border-radius: 12px;
+  box-shadow: ${props => props.theme.shadow15};
 
   &:hover {
     color: ${props => props.theme.white};
@@ -135,6 +123,15 @@ const PrimaryActionMediumButton = styled(MediumButton)`
 `;
 
 const contextMenuId = "project-menu";
+
+const WelcomeSubRow = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+`;
 
 class ProjectsPage extends Component {
   static propTypes = {
@@ -227,16 +224,18 @@ class ProjectsPage extends Component {
                     ? t("projects.hero.titleMoz", null, "Welcome a Spoke")
                     : t("projects.hero.titleDefault", null, "Welcome")}
                 </h1>
-                <h2>
-                  {t(
-                    "projects.hero.subtitle",
-                    null,
-                    "Welcome to Educamaker, the immersive classroom builder. If you're new here we recommend going through the tutorial. Otherwise, jump right in and create a project from scratch or from one of our templates."
-                  )}
-                </h2>
-                <PrimaryActionMediumButton as={Link} to="/projects/tutorial">
-                  {t("projects.actions.startTutorial", null, "Start Tutorial")}
-                </PrimaryActionMediumButton>
+                <WelcomeSubRow>
+                  <h2>
+                    {t(
+                      "projects.hero.subtitle",
+                      null,
+                      "Welcome to Educamaker, the immersive classroom builder. If you're new here we recommend going through the tutorial. Otherwise, jump right in and create a project from scratch or from one of our templates."
+                    )}
+                  </h2>
+                  <PrimaryActionMediumButton as={Link} to="/projects/tutorial">
+                    {t("projects.actions.startTutorial", null, "Start Tutorial")}
+                  </PrimaryActionMediumButton>
+                </WelcomeSubRow>
               </WelcomeContainer>
             </ProjectsSection>
           ) : null}

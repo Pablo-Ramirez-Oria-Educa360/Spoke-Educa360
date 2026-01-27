@@ -65,10 +65,27 @@ export const UploadSceneContainer = styled.div`
 `;
 
 export const SceneUploadHeader = styled.div`
-  margin-bottom: 36px;
+  margin-bottom: 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: ${props => props.theme.panel};
+  border: 1px solid ${props => props.theme.orange};
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px rgba(255, 104, 0, 0.35), 0 10px 22px rgba(255, 104, 0, 0.22);
+  padding: 20px 24px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 104, 0, 0.12), rgba(0, 0, 0, 0) 55%),
+      radial-gradient(720px 420px at 20% 10%, rgba(255, 104, 0, 0.24), transparent 65%);
+    opacity: 0.7;
+    pointer-events: none;
+  }
 `;
 
 const LeftContent = styled.div`

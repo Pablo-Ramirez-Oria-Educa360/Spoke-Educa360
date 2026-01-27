@@ -12,11 +12,23 @@ const LoginHeroCard = styled.div`
   flex-direction: column;
   gap: 24px;
   width: 100%;
-  background-color: ${props => props.theme.panel2};
-  border: 1px solid ${props => props.theme.border};
-  border-radius: 14px;
-  box-shadow: ${props => props.theme.shadow30};
+  background-color: ${props => props.theme.panel};
+  border: 1px solid ${props => props.theme.orange};
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px rgba(255, 104, 0, 0.35), 0 10px 22px rgba(255, 104, 0, 0.22);
   padding: 32px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 104, 0, 0.12), rgba(0, 0, 0, 0) 55%),
+      radial-gradient(720px 420px at 20% 10%, rgba(255, 104, 0, 0.24), transparent 65%);
+    opacity: 0.7;
+    pointer-events: none;
+  }
 
   h1 {
     font-size: 32px;
@@ -42,7 +54,7 @@ const AuthCard = styled.div`
   max-width: 420px;
   background: ${props => props.theme.panel};
   border: 1px solid ${props => props.theme.border};
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 28px;
   box-shadow: ${props => props.theme.shadow15};
 `;

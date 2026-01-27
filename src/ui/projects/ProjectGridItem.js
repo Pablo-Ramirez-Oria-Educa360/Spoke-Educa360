@@ -7,7 +7,7 @@ import { MenuButton } from "../inputs/Button";
 import StylableContextMenuTrigger from "./StylableContextMenuTrigger";
 import { EllipsisV } from "styled-icons/fa-solid/EllipsisV";
 
-const ACCENT_ORANGE_SHADOW = "rgba(255, 104, 0, 0.18)";
+const ACCENT_ORANGE_SHADOW = "rgba(255, 104, 0, 0.22)";
 
 function collectMenuProps({ project }) {
   return { project };
@@ -17,19 +17,31 @@ const StyledProjectGridItem = styled(Link)`
   display: flex;
   flex-direction: column;
   height: 220px;
-  border-radius: 6px;
-  background-color: ${props => props.theme.panel2};
+  border-radius: 16px;
+  background-color: ${props => props.theme.panel};
   text-decoration: none;
   border: 1px solid ${props => props.theme.border};
   position: relative;
-  box-shadow: ${props => props.theme.shadow15};
+  box-shadow: ${props => props.theme.shadow30};
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(255, 104, 0, 0.9), rgba(255, 104, 0, 0));
+    opacity: 0.6;
+  }
 
   &:hover {
     color: inherit;
     border-color: ${props => props.theme.orange};
-    box-shadow: 0 6px 16px ${ACCENT_ORANGE_SHADOW};
-    transform: translateY(-2px);
+    box-shadow: 0 10px 22px ${ACCENT_ORANGE_SHADOW};
+    transform: translateY(-3px);
   }
 `;
 
@@ -40,7 +52,7 @@ const Pill = styled.i`
   padding: 3px 8px;
   background-color: ${props => props.theme.orange};
   color: white;
-  border-radius: 6px;
+  border-radius: 8px;
   text-align: center;
 `;
 

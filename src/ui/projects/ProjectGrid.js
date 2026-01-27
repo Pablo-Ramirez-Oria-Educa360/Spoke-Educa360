@@ -7,26 +7,28 @@ import StringInput from "../inputs/StringInput";
 import { Link } from "react-router-dom";
 import { Plus } from "styled-icons/fa-solid/Plus";
 
-const ACCENT_ORANGE_SHADOW = "rgba(255, 104, 0, 0.18)";
+const ACCENT_ORANGE_SHADOW = "rgba(255, 104, 0, 0.22)";
 
 const ProjectGridItemContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 220px;
-  border-radius: 6px;
+  border-radius: 16px;
   text-decoration: none;
-  background-color: ${props => props.theme.panel2};
+  background-color: ${props => props.theme.panel};
   justify-content: center;
   align-items: center;
   border: 1px solid ${props => props.theme.border};
-  box-shadow: ${props => props.theme.shadow15};
+  box-shadow: ${props => props.theme.shadow30};
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  position: relative;
+  overflow: hidden;
 
   &:hover {
     color: inherit;
     border-color: ${props => props.theme.orange};
-    box-shadow: 0 6px 16px ${ACCENT_ORANGE_SHADOW};
-    transform: translateY(-2px);
+    box-shadow: 0 10px 22px ${ACCENT_ORANGE_SHADOW};
+    transform: translateY(-3px);
   }
 
   svg {
@@ -116,25 +118,27 @@ export const ProjectGridContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  background-color: ${props => props.theme.panel2};
-  border-radius: 3px;
+  background-color: ${props => props.theme.panel};
+  border-radius: 16px;
+  border: 1px solid ${props => props.theme.border};
 `;
 
 export const ProjectGridContent = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 20px;
+  padding: 24px;
 `;
 
 export const ProjectGridHeader = styled.div`
   display: flex;
-  background-color: ${props => props.theme.toolbar2};
-  border-radius: 3px 3px 0px 0px;
-  height: 48px;
+  background-color: transparent;
+  border-radius: 16px 16px 0px 0px;
+  height: auto;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
+  padding: 12px 16px 8px;
+  border-bottom: 1px solid ${props => props.theme.border};
 `;
 
 export const Filter = styled.a`
