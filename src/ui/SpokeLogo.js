@@ -1,6 +1,6 @@
 import React from "react";
-import educa360Icon from "../assets/educa360-icon.png";
+import educamakerLogo from "../assets/educamaker-logo.png";
 
 export default function SpokeLogo() {
-  return <img src={educa360Icon} alt="Educa360" style={{ width: "150px", height: "auto" }} />;
+  return <img src={educamakerLogo} alt="Educamaker" style={{ width: "150px", height: "auto" }} />;
 }
