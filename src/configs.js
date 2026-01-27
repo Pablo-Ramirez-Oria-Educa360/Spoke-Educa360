@@ -1,6 +1,5 @@
 import spokeIcon from "./assets/spoke-icon.png";
-
-const editorIconPath = "assets/images/editor-icon.png";
+import editorIcon from "./assets/editor-icon.png";
 
 // Read configs from meta tags if available, otherwise use the process.env injected from build.
 const configs = {};
@@ -46,6 +45,6 @@ function fixBaseAssetsPath(path) {
 configs.isMoz = () => configs.IS_MOZ === "true";
 configs.name = () => (configs.isMoz() ? "Spoke" : "Scene Editor");
 configs.longName = () => (configs.isMoz() ? "Spoke by the Hubs Community" : "Scene Editor");
-configs.icon = () => (configs.isMoz() ? fixBaseAssetsPath(spokeIcon) : fixBaseAssetsPath(editorIconPath));
+configs.icon = () => (configs.isMoz() ? fixBaseAssetsPath(spokeIcon) : fixBaseAssetsPath(editorIcon));
 
 export default configs;

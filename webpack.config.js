@@ -229,12 +229,6 @@ module.exports = env => {
       ]),
       new CopyWebpackPlugin([
         {
-          from: path.join(__dirname, "src", "assets", "editor-icon.png"),
-          to: "assets/images/editor-icon.png"
-        }
-      ]),
-      new CopyWebpackPlugin([
-        {
           from: path.join(__dirname, "src", "assets", "favicon-spoke.ico"),
           to: "assets/images/favicon-spoke.ico"
         }
