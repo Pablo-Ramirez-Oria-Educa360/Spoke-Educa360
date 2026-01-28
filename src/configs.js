@@ -28,11 +28,13 @@ if (configs.BASE_ASSETS_PATH) {
 }
 
 function fixBaseAssetsPath(path) {
+  const placeholderToken = "{{rawspoke-base-assets-path}}";
   // eslint-disable-next-line no-undef
-  const publicPath = __webpack_public_path__ || "";
-  if (!path.startsWith(publicPath)) {
+  const publicPath = (__webpack_public_path__ || "").split(placeholderToken).join("");
+  const cleanedPath = path.split(placeholderToken).join("");
+  if (!cleanedPath.startsWith(publicPath)) {
     const normalizedPublicPath = publicPath.endsWith("/") ? publicPath : `${publicPath}/`;
-    const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
+    const normalizedPath = cleanedPath.startsWith("/") ? cleanedPath.slice(1) : cleanedPath;
 
     if (normalizedPublicPath.endsWith("/assets/") && normalizedPath.startsWith("assets/")) {
       return normalizedPublicPath + normalizedPath.slice("assets/".length);
@@ -41,7 +43,7 @@ function fixBaseAssetsPath(path) {
     return normalizedPublicPath + normalizedPath;
   }
 
-  return path;
+  return cleanedPath;
 }
 
 configs.isMoz = () => configs.IS_MOZ === "true";
