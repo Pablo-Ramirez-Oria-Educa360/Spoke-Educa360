@@ -6,7 +6,6 @@ import { withAuth } from "../contexts/AuthContext";
 import styled from "styled-components";
 import withStrings from "../i18n/withStrings";
 import { SelectMenu, Button as EvergreenButton } from "evergreen-ui";
-import educamakerLogo from "../../assets/educamaker-logo.png";
 
 const LANGUAGES = [{ code: "en", label: "English" }, { code: "es", label: "Español" }];
 
@@ -131,12 +130,11 @@ class NavBar extends Component {
 
   render() {
     const { t } = this.props;
-    const logoSrc = educamakerLogo;
     return (
       <StyledNavBar>
         <IconContainer>
           <Link to="/">
-            <img src={logoSrc} alt={configs.name()} />
+            <img src={configs.icon()} alt={configs.name()} />
           </Link>
         </IconContainer>
         <MiddleContainer>
