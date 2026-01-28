@@ -29,14 +29,16 @@ if (configs.BASE_ASSETS_PATH) {
 
 function fixBaseAssetsPath(path) {
   // eslint-disable-next-line no-undef
-  if (!path.startsWith(__webpack_public_path__)) {
-    // eslint-disable-next-line no-useless-escape
-    const matches = path.match(/^([^\/]+\/).+$/);
+  const publicPath = __webpack_public_path__ || "";
+  if (!path.startsWith(publicPath)) {
+    const normalizedPublicPath = publicPath.endsWith("/") ? publicPath : `${publicPath}/`;
+    const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
 
-    if (matches.length > 1) {
-      // eslint-disable-next-line no-undef
-      return __webpack_public_path__ + path.replace(matches[1], "");
+    if (normalizedPublicPath.endsWith("/assets/") && normalizedPath.startsWith("assets/")) {
+      return normalizedPublicPath + normalizedPath.slice("assets/".length);
     }
+
+    return normalizedPublicPath + normalizedPath;
   }
 
   return path;
