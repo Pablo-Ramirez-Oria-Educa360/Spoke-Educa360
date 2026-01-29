@@ -5,6 +5,7 @@
   "navbar.language.title": "Language",
   "navbar.language.current": "Language: {lang}",
   "navbar.links.source": "Source",
+  "navbar.links.backToHubs": "Back to Hubs",
   "navbar.links.community": "Community",
   "navbar.links.hubs": "Hubs",
   "navbar.links.projects": "Projects",

@@ -23,6 +23,9 @@ const StyledNavBar = styled.header`
 `;
 
 const IconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 28px;
   margin-right: 20px;
 
   a {
@@ -136,15 +139,18 @@ class NavBar extends Component {
           <Link to="/">
             <img src={configs.icon()} alt={configs.name()} />
           </Link>
+          <a href="/">{t("navbar.links.backToHubs", null, "Back to Hubs")}</a>
         </IconContainer>
         <MiddleContainer>
           <nav>
             <NavList>
-              <li>
-                <a href="https://github.com/Hubs-Foundation/Spoke" rel="noopener noreferrer">
-                  {t("navbar.links.source", null, "Source")}
-                </a>
-              </li>
+              {/*
+                <li>
+                  <a href="https://github.com/Hubs-Foundation/Spoke" rel="noopener noreferrer">
+                    {t("navbar.links.source", null, "Source")}
+                  </a>
+                </li>
+              */}
               {configs.isMoz() && (
                 <li>
                   <a href="https://discord.gg/wHmY4nd" rel="noopener noreferrer">

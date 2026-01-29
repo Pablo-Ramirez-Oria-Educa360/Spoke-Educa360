@@ -131,6 +131,19 @@ const GlobalStyle = createGlobalStyle`
     color: ${props => props.theme.text};
     background-color: ${props => props.theme.background};
     scrollbar-color: #282c31 #5d646c;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  input,
+  textarea,
+  [contenteditable="true"] {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
   }
 
   .Modal {

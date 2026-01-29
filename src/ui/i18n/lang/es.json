@@ -5,6 +5,7 @@
   "navbar.language.title": "Idioma",
   "navbar.language.current": "Idioma: {lang}",
   "navbar.links.source": "Código fuente",
+  "navbar.links.backToHubs": "Volver a Hubs",
   "navbar.links.community": "Comunidad",
   "navbar.links.hubs": "Hubs",
   "navbar.links.projects": "Proyectos",
