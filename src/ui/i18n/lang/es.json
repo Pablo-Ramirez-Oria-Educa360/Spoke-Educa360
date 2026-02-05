@@ -42,5 +42,6 @@
   "projects.list.heading": "Proyectos",
   "projects.actions.newProject": "Nuevo proyecto",
   "projects.actions.deleteProject": "Eliminar proyecto",
-  "projects.loading": "Cargando..."
+  "projects.loading": "Cargando...",
+  "scene.name.invalid": "El nombre debe tener entre 4 y 64 caracteres y no puede contener guiones bajos"
 }

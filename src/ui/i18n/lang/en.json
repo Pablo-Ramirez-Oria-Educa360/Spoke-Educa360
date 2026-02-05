@@ -42,5 +42,6 @@
   "projects.list.heading": "Projects",
   "projects.actions.newProject": "New Project",
   "projects.actions.deleteProject": "Delete Project",
-  "projects.loading": "Loading..."
+  "projects.loading": "Loading...",
+  "scene.name.invalid": "Name must be between 4 and 64 characters and cannot contain underscores"
 }

@@ -15,6 +15,7 @@ import FileInput from "../inputs/FileInput";
 import FormField from "../inputs/FormField";
 import { Button } from "../inputs/Button";
 import ProgressBar from "../inputs/ProgressBar";
+import useStrings from "../i18n/useStrings";
 
 const NAME_REGEX = /^[A-Za-z0-9'":!@#$%^&*(),.?~ -]{4,64}$/;
 const NAME_ERROR_MESSAGE = "Name must be between 4 and 64 characters and cannot contain underscores";
@@ -150,6 +151,8 @@ function CreateScenePage({ match, api }) {
   const [sceneUrl, setSceneUrl] = useState(null);
 
   const history = useHistory();
+  const { t } = useStrings();
+  const nameErrorMessage = t("scene.name.invalid", null, NAME_ERROR_MESSAGE);
 
   const openScene = useCallback(() => {
     window.open(sceneUrl);
@@ -244,7 +247,7 @@ function CreateScenePage({ match, api }) {
       e.preventDefault();
       const trimmedName = sceneInfo.name.trim();
       if (!NAME_REGEX.test(trimmedName)) {
-        setError(NAME_ERROR_MESSAGE);
+        setError(nameErrorMessage);
         return;
       }
 
@@ -321,7 +324,7 @@ function CreateScenePage({ match, api }) {
             <StringInput
               id="sceneName"
               required
-              title={NAME_ERROR_MESSAGE}
+              title={nameErrorMessage}
               value={sceneInfo.name}
               onChange={onChangeName}
             />

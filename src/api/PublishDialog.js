@@ -6,6 +6,7 @@ import StringInput from "../ui/inputs/StringInput";
 import BooleanInput from "../ui/inputs/BooleanInput";
 import FormField from "../ui/inputs/FormField";
 import styled from "styled-components";
+import withStrings from "../ui/i18n/withStrings";
 
 const NAME_REGEX = /^[A-Za-z0-9'":!@#$%^&*(),.?~ -]{4,64}$/;
 const NAME_ERROR_MESSAGE = "Name must be between 4 and 64 characters and cannot contain underscores";
@@ -16,7 +17,7 @@ const ValidationMessage = styled.div`
   font-size: 12px;
 `;
 
-export default class PublishDialog extends Component {
+class PublishDialog extends Component {
   static propTypes = {
     onCancel: PropTypes.func,
     screenshotUrl: PropTypes.string,
@@ -24,7 +25,8 @@ export default class PublishDialog extends Component {
     onPublish: PropTypes.func,
     published: PropTypes.bool,
     sceneUrl: PropTypes.string,
-    initialSceneParams: PropTypes.object
+    initialSceneParams: PropTypes.object,
+    t: PropTypes.func
   };
 
   constructor(props) {
@@ -48,13 +50,18 @@ export default class PublishDialog extends Component {
 
   onChangeAllowPromotion = allowPromotion => this.setState({ allowPromotion });
 
+  getNameErrorMessage = () => {
+    const { t } = this.props;
+    return t ? t("scene.name.invalid", null, NAME_ERROR_MESSAGE) : NAME_ERROR_MESSAGE;
+  };
+
   onConfirm = () => {
     const { nameError, ...rest } = this.state;
     const publishState = { ...rest, contentAttributions: this.props.contentAttributions };
     publishState.name = publishState.name.trim();
     publishState.creatorAttribution = publishState.creatorAttribution.trim();
     if (!NAME_REGEX.test(publishState.name)) {
-      this.setState({ nameError: NAME_ERROR_MESSAGE });
+      this.setState({ nameError: this.getNameErrorMessage() });
       return;
     }
     this.props.onPublish(publishState);
@@ -63,6 +70,7 @@ export default class PublishDialog extends Component {
   render() {
     const { onCancel, screenshotUrl, contentAttributions } = this.props;
     const { creatorAttribution, name, allowRemixing, allowPromotion, nameError } = this.state;
+    const nameErrorMessage = this.getNameErrorMessage();
 
     return (
       <PreviewDialog
@@ -78,7 +86,7 @@ export default class PublishDialog extends Component {
             id="sceneName"
             required
             error={Boolean(nameError)}
-            title={NAME_ERROR_MESSAGE}
+            title={nameErrorMessage}
             value={name}
             onChange={this.onChangeName}
           />
@@ -142,3 +150,5 @@ export default class PublishDialog extends Component {
     );
   }
 }
+
+export default withStrings(PublishDialog);

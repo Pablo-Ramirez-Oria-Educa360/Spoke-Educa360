@@ -4,6 +4,7 @@ import StringInput from "../inputs/StringInput";
 import FormField from "../inputs/FormField";
 import PreviewDialog from "./PreviewDialog";
 import styled from "styled-components";
+import useStrings from "../i18n/useStrings";
 
 const NAME_REGEX = /^[A-Za-z0-9'":!@#$%^&*(),.?~ -]{4,64}$/;
 const NAME_ERROR_MESSAGE = "Name must be between 4 and 64 characters and cannot contain underscores";
@@ -15,8 +16,10 @@ const ValidationMessage = styled.div`
 `;
 
 export default function SaveNewProjectDialog({ thumbnailUrl, initialName, onConfirm, onCancel }) {
+  const { t } = useStrings();
   const [name, setName] = useState(initialName);
   const [nameError, setNameError] = useState(null);
+  const nameErrorMessage = t("scene.name.invalid", null, NAME_ERROR_MESSAGE);
 
   const onChangeName = useCallback(
     value => {
@@ -33,12 +36,12 @@ export default function SaveNewProjectDialog({ thumbnailUrl, initialName, onConf
       e.preventDefault();
       const trimmedName = name.trim();
       if (!NAME_REGEX.test(trimmedName)) {
-        setNameError(NAME_ERROR_MESSAGE);
+        setNameError(nameErrorMessage);
         return;
       }
       onConfirm({ name: trimmedName });
     },
-    [name, onConfirm]
+    [name, onConfirm, nameErrorMessage]
   );
 
   const onCancelCallback = useCallback(
@@ -63,7 +66,7 @@ export default function SaveNewProjectDialog({ thumbnailUrl, initialName, onConf
           id="name"
           required
           error={Boolean(nameError)}
-          title={NAME_ERROR_MESSAGE}
+          title={nameErrorMessage}
           value={name}
           onChange={onChangeName}
         />
