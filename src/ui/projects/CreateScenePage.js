@@ -313,7 +313,7 @@ function CreateScenePage({ match, api }) {
             <StringInput
               id="sceneName"
               required
-              pattern={"[A-Za-z0-9-':\"!@#$%^&*(),.?~ ]{4,64}"}
+              pattern={"[A-Za-z0-9'\":!@#$%^&*(),.?~ -]{4,64}"}
               title="Name must be between 4 and 64 characters and cannot contain underscores"
               value={sceneInfo.name}
               onChange={onChangeName}
