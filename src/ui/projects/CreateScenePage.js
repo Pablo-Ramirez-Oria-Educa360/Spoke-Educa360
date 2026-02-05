@@ -16,6 +16,9 @@ import FormField from "../inputs/FormField";
 import { Button } from "../inputs/Button";
 import ProgressBar from "../inputs/ProgressBar";
 
+const NAME_REGEX = /^[A-Za-z0-9'":!@#$%^&*(),.?~ -]{4,64}$/;
+const NAME_ERROR_MESSAGE = "Name must be between 4 and 64 characters and cannot contain underscores";
+
 const SceneUploadFormContainer = styled.div`
   display: flex;
   flex: 1;
@@ -239,6 +242,11 @@ function CreateScenePage({ match, api }) {
   const onPublish = useCallback(
     e => {
       e.preventDefault();
+      const trimmedName = sceneInfo.name.trim();
+      if (!NAME_REGEX.test(trimmedName)) {
+        setError(NAME_ERROR_MESSAGE);
+        return;
+      }
 
       setError(null);
       setIsUploading(true);
@@ -250,7 +258,7 @@ function CreateScenePage({ match, api }) {
           thumbnailFile,
           glbFile,
           {
-            name: sceneInfo.name,
+            name: trimmedName,
             allow_remixing: sceneInfo.allowRemixing,
             allow_promotion: sceneInfo.allowPromotion,
             attributions: {
@@ -313,8 +321,7 @@ function CreateScenePage({ match, api }) {
             <StringInput
               id="sceneName"
               required
-              pattern={"[A-Za-z0-9'\":!@#$%^&*(),.?~ \\-]{4,64}"}
-              title="Name must be between 4 and 64 characters and cannot contain underscores"
+              title={NAME_ERROR_MESSAGE}
               value={sceneInfo.name}
               onChange={onChangeName}
             />

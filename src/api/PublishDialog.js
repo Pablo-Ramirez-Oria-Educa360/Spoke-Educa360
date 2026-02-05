@@ -5,6 +5,16 @@ import PreviewDialog from "../ui/dialogs/PreviewDialog";
 import StringInput from "../ui/inputs/StringInput";
 import BooleanInput from "../ui/inputs/BooleanInput";
 import FormField from "../ui/inputs/FormField";
+import styled from "styled-components";
+
+const NAME_REGEX = /^[A-Za-z0-9'":!@#$%^&*(),.?~ -]{4,64}$/;
+const NAME_ERROR_MESSAGE = "Name must be between 4 and 64 characters and cannot contain underscores";
+
+const ValidationMessage = styled.div`
+  margin-top: 6px;
+  color: ${props => props.theme.error};
+  font-size: 12px;
+`;
 
 export default class PublishDialog extends Component {
   static propTypes = {
@@ -22,6 +32,7 @@ export default class PublishDialog extends Component {
 
     this.state = {
       name: "",
+      nameError: null,
       creatorAttribution: "",
       allowRemixing: false,
       allowPromotion: false,
@@ -29,7 +40,7 @@ export default class PublishDialog extends Component {
     };
   }
 
-  onChangeName = name => this.setState({ name });
+  onChangeName = name => this.setState({ name, nameError: null });
 
   onChangeCreatorAttribution = creatorAttribution => this.setState({ creatorAttribution });
 
@@ -38,15 +49,20 @@ export default class PublishDialog extends Component {
   onChangeAllowPromotion = allowPromotion => this.setState({ allowPromotion });
 
   onConfirm = () => {
-    const publishState = { ...this.state, contentAttributions: this.props.contentAttributions };
+    const { nameError, ...rest } = this.state;
+    const publishState = { ...rest, contentAttributions: this.props.contentAttributions };
     publishState.name = publishState.name.trim();
     publishState.creatorAttribution = publishState.creatorAttribution.trim();
+    if (!NAME_REGEX.test(publishState.name)) {
+      this.setState({ nameError: NAME_ERROR_MESSAGE });
+      return;
+    }
     this.props.onPublish(publishState);
   };
 
   render() {
     const { onCancel, screenshotUrl, contentAttributions } = this.props;
-    const { creatorAttribution, name, allowRemixing, allowPromotion } = this.state;
+    const { creatorAttribution, name, allowRemixing, allowPromotion, nameError } = this.state;
 
     return (
       <PreviewDialog
@@ -61,11 +77,12 @@ export default class PublishDialog extends Component {
           <StringInput
             id="sceneName"
             required
-            pattern={"[A-Za-z0-9'\":!@#$%^&*(),.?~ \\-]{4,64}"}
-            title="Name must be between 4 and 64 characters and cannot contain underscores"
+            error={Boolean(nameError)}
+            title={NAME_ERROR_MESSAGE}
             value={name}
             onChange={this.onChangeName}
           />
+          {nameError && <ValidationMessage>{nameError}</ValidationMessage>}
         </FormField>
         <FormField>
           <label htmlFor="creatorAttribution">Your Attribution (optional):</label>
