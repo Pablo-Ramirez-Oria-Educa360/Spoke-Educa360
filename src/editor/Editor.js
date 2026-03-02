@@ -542,7 +542,7 @@ export default class Editor extends EventEmitter {
       blob = await this.thumbnailRenderer.generateThumbnail(scene, width, height);
     } else if ([".png", ".jpg", ".jpeg", ".gif", ".webp"].some(ext => file.name.toLowerCase().endsWith(ext))) {
       blob = await generateImageFileThumbnail(file);
-    } else if (file.name.toLowerCase().endsWith(".mp4")) {
+    } else if ([".mp4", ".webm"].some(ext => file.name.toLowerCase().endsWith(ext))) {
       blob = await generateVideoFileThumbnail(file);
     }
 

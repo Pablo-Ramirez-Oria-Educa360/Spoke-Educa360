@@ -81,6 +81,7 @@ const CommonKnownContentTypes = {
   jpeg: "image/jpeg",
   pdf: "application/pdf",
   mp4: "video/mp4",
+  webm: "video/webm",
   mp3: "audio/mpeg"
 };
 
@@ -424,7 +425,7 @@ export default class Project extends EventEmitter {
 
     const thumbnailedEntries = json.entries.map(entry => {
       if (entry.images && entry.images.preview && entry.images.preview.url) {
-        if (entry.images.preview.type === "mp4") {
+        if (["mp4", "webm"].includes(entry.images.preview.type)) {
           entry.images.preview.url = proxiedUrlFor(entry.images.preview.url);
         } else {
           entry.images.preview.url = scaledThumbnailUrlFor(entry.images.preview.url, 200, 200);

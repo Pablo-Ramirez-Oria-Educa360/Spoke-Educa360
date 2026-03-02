@@ -1,6 +1,6 @@
 export const AudioFileTypes = [".mp3", "audio/mpeg"];
 
-export const VideoFileTypes = [".mp4", "video/mp4"];
+export const VideoFileTypes = [".mp4", ".webm", "video/mp4", "video/webm"];
 
 export const ImageFileTypes = [".png", ".jpeg", ".jpg", ".gif", "image/png", "image/jpeg", "image/gif"];
 
