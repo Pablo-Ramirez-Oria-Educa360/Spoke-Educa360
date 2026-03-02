@@ -90,6 +90,27 @@ function guessContentType(url) {
   return CommonKnownContentTypes[extension];
 }
 
+function hasChromaNameHint(fileName) {
+  if (!fileName) return false;
+  const baseName = fileName.replace(/\.[^/.]+$/, "");
+  return /_chroma$/i.test(baseName);
+}
+
+function withChromaFlag(url) {
+  if (!url) return url;
+  try {
+    const parsed = new URL(url);
+    parsed.searchParams.set("_chroma", "1");
+    return parsed.href;
+  } catch (e) {
+    return url;
+  }
+}
+
+function withChromaFlagForVideoAsset(url, assetType, assetName) {
+  return assetType === "video" && hasChromaNameHint(assetName) ? withChromaFlag(url) : url;
+}
+
 const LOCAL_STORE_KEY = "___hubs_store";
 
 export default class Project extends EventEmitter {
@@ -430,6 +451,10 @@ export default class Project extends EventEmitter {
         } else {
           entry.images.preview.url = scaledThumbnailUrlFor(entry.images.preview.url, 200, 200);
         }
+      }
+      // Preserve chroma hint for uploaded video assets whose original name ends with `_chroma`.
+      if (source === "assets") {
+        entry.url = withChromaFlagForVideoAsset(entry.url, entry.type, entry.name);
       }
       return entry;
     });
@@ -1178,7 +1203,7 @@ export default class Project extends EventEmitter {
     return {
       id: asset.asset_id,
       name: asset.name,
-      url: asset.file_url,
+      url: withChromaFlagForVideoAsset(asset.file_url, asset.type, asset.name || file.name),
       type: asset.type,
       attributions: {},
       images: {
