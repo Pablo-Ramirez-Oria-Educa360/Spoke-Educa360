@@ -90,25 +90,67 @@ function guessContentType(url) {
   return CommonKnownContentTypes[extension];
 }
 
-function hasChromaNameHint(fileName) {
-  if (!fileName) return false;
-  const baseName = fileName.replace(/\.[^/.]+$/, "");
-  return /_chroma$/i.test(baseName);
+const TRANSPARENCY_HINT_TRUE_VALUES = new Set(["", "1", "true", "yes", "on"]);
+
+function hasTruthyTransparencyFlag(url, flagName) {
+  if (!url.searchParams.has(flagName)) return false;
+  const value = (url.searchParams.get(flagName) || "").trim().toLowerCase();
+  return TRANSPARENCY_HINT_TRUE_VALUES.has(value);
 }
 
-function withChromaFlag(url) {
-  if (!url) return url;
+function getTransparencyModeHintFromFileName(fileName) {
+  if (!fileName) return null;
+  const baseName = fileName.replace(/\.[^/.]+$/, "");
+  if (/_alpha$/i.test(baseName)) return "alpha";
+  if (/_chroma$/i.test(baseName)) return "chroma";
+  return null;
+}
+
+function getTransparencyModeFromUrl(urlString) {
+  if (!urlString) return null;
+
+  // alpha > chroma (explicit flags first)
+  try {
+    const parsed = new URL(urlString);
+    if (hasTruthyTransparencyFlag(parsed, "_alpha")) return "alpha";
+    if (hasTruthyTransparencyFlag(parsed, "_chroma")) return "chroma";
+
+    const path = decodeURIComponent(parsed.pathname).toLowerCase();
+    if (path.includes("_alpha")) return "alpha";
+    if (path.includes("_chroma")) return "chroma";
+  } catch (e) {
+    const normalized = urlString.toLowerCase();
+    if (normalized.includes("_alpha")) return "alpha";
+    if (normalized.includes("_chroma")) return "chroma";
+  }
+
+  return null;
+}
+
+function withTransparencyModeFlag(url, mode) {
+  if (!url || !mode) return url;
   try {
     const parsed = new URL(url);
-    parsed.searchParams.set("_chroma", "1");
+    if (mode === "alpha") {
+      parsed.searchParams.set("_alpha", "1");
+      parsed.searchParams.delete("_chroma");
+    } else if (mode === "chroma") {
+      parsed.searchParams.set("_chroma", "1");
+      parsed.searchParams.delete("_alpha");
+    }
     return parsed.href;
   } catch (e) {
     return url;
   }
 }
 
-function withChromaFlagForVideoAsset(url, assetType, assetName) {
-  return assetType === "video" && hasChromaNameHint(assetName) ? withChromaFlag(url) : url;
+function withTransparencyFlagForVideoAsset(url, assetType, assetName) {
+  if (assetType !== "video") return url;
+
+  const modeFromName = getTransparencyModeHintFromFileName(assetName);
+  const modeFromUrl = getTransparencyModeFromUrl(url);
+  const mode = modeFromName || modeFromUrl;
+  return withTransparencyModeFlag(url, mode);
 }
 
 const LOCAL_STORE_KEY = "___hubs_store";
@@ -452,9 +494,10 @@ export default class Project extends EventEmitter {
           entry.images.preview.url = scaledThumbnailUrlFor(entry.images.preview.url, 200, 200);
         }
       }
-      // Preserve chroma hint for uploaded video assets whose original name ends with `_chroma`.
+      // Preserve transparency hints for uploaded video assets.
+      // Priority: _alpha > _chroma > normal.
       if (source === "assets") {
-        entry.url = withChromaFlagForVideoAsset(entry.url, entry.type, entry.name);
+        entry.url = withTransparencyFlagForVideoAsset(entry.url, entry.type, entry.name);
       }
       return entry;
     });
@@ -1203,7 +1246,7 @@ export default class Project extends EventEmitter {
     return {
       id: asset.asset_id,
       name: asset.name,
-      url: withChromaFlagForVideoAsset(asset.file_url, asset.type, asset.name || file.name),
+      url: withTransparencyFlagForVideoAsset(asset.file_url, asset.type, asset.name || file.name),
       type: asset.type,
       attributions: {},
       images: {
