@@ -102,6 +102,7 @@ function getTransparencyModeHintFromFileName(fileName) {
   if (!fileName) return null;
   const baseName = fileName.replace(/\.[^/.]+$/, "");
   if (/_alpha$/i.test(baseName)) return "alpha";
+  if (/_luma$/i.test(baseName)) return "luma";
   if (/_chroma$/i.test(baseName)) return "chroma";
   return null;
 }
@@ -109,18 +110,21 @@ function getTransparencyModeHintFromFileName(fileName) {
 function getTransparencyModeFromUrl(urlString) {
   if (!urlString) return null;
 
-  // alpha > chroma (explicit flags first)
+  // alpha > luma > chroma (explicit flags first)
   try {
     const parsed = new URL(urlString);
     if (hasTruthyTransparencyFlag(parsed, "_alpha")) return "alpha";
+    if (hasTruthyTransparencyFlag(parsed, "_luma")) return "luma";
     if (hasTruthyTransparencyFlag(parsed, "_chroma")) return "chroma";
 
     const path = decodeURIComponent(parsed.pathname).toLowerCase();
     if (path.includes("_alpha")) return "alpha";
+    if (path.includes("_luma")) return "luma";
     if (path.includes("_chroma")) return "chroma";
   } catch (e) {
     const normalized = urlString.toLowerCase();
     if (normalized.includes("_alpha")) return "alpha";
+    if (normalized.includes("_luma")) return "luma";
     if (normalized.includes("_chroma")) return "chroma";
   }
 
@@ -133,10 +137,16 @@ function withTransparencyModeFlag(url, mode) {
     const parsed = new URL(url);
     if (mode === "alpha") {
       parsed.searchParams.set("_alpha", "1");
+      parsed.searchParams.delete("_luma");
+      parsed.searchParams.delete("_chroma");
+    } else if (mode === "luma") {
+      parsed.searchParams.delete("_alpha");
+      parsed.searchParams.set("_luma", "1");
       parsed.searchParams.delete("_chroma");
     } else if (mode === "chroma") {
-      parsed.searchParams.set("_chroma", "1");
       parsed.searchParams.delete("_alpha");
+      parsed.searchParams.delete("_luma");
+      parsed.searchParams.set("_chroma", "1");
     }
     return parsed.href;
   } catch (e) {
@@ -495,7 +505,7 @@ export default class Project extends EventEmitter {
         }
       }
       // Preserve transparency hints for uploaded video assets.
-      // Priority: _alpha > _chroma > normal.
+      // Priority: _alpha > _luma > _chroma > normal.
       if (source === "assets") {
         entry.url = withTransparencyFlagForVideoAsset(entry.url, entry.type, entry.name);
       }
